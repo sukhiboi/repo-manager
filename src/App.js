@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from './components/Card';
-import Input from './components/Input';
-import { postReq } from './request';
+import Loader from './components/Loader';
+import useRepos from './hooks/useRepos';
+import styled from 'styled-components';
+
+const CardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+`;
 
 const App = props => {
-  const [repos, setRepos] = useState([]);
-  const [appLink, setAppLink] = useState('');
-  const [repoName, setRepoName] = useState('');
+  const repos = useRepos();
 
-  useEffect(() => {
-    fetch('/api/repo/getRepos')
-      .then(res => res.json())
-      .then(setRepos);
-  }, []);
-
-  const saveRepo = () => postReq('/api/repo/addRepo', { repoName, appLink });
-
+  if (!repos.length) return <Loader />;
   return (
-    <div>
-      {repos.length ? (
-        repos.map(repo => <Card key={repo.repoId} repo={repo} />)
-      ) : (
-        <p>Loading...</p>
-      )}
-      <div>
-        <Input placeholder='Repo Name' onChange={setRepoName} />
-        <Input placeholder='App Link' onChange={setAppLink} />
-        <button onClick={saveRepo}>Save Repo</button>
-      </div>
-    </div>
+    <CardsContainer>
+      {repos.map(repo => (
+        <Card key={repo.repoId} repo={repo} />
+      ))}
+    </CardsContainer>
   );
 };
 

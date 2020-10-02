@@ -6,7 +6,7 @@ const DescriptionLayout = styled.p`
   font-size: 1rem;
   font-family: Roboto;
   width: 100%;
-  max-height: 4rem;
+  min-height: 4rem;
   margin: 4px 0 8px;
 `;
 

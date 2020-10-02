@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import WithAuth from '../components/WithAuth';
 import Form from './../components/Form';
 
 const AddRepo = Component => {
@@ -12,4 +13,4 @@ const AddRepo = Component => {
   );
 };
 
-export default AddRepo;
+export default WithAuth(AddRepo);

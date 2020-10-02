@@ -1,25 +1,20 @@
 import React from 'react';
-import Card from './components/Card';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useUser } from './hooks/useUser';
+import Home from './pages/Home';
+import AddRepo from './pages/AddRepo';
 import Loader from './components/Loader';
-import useRepos from './hooks/useRepos';
-import styled from 'styled-components';
-
-const CardsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-`;
 
 const App = props => {
-  const repos = useRepos();
-
-  if (!repos.length) return <Loader />;
+  const user = useUser();
+  if (!user.loaded) return <Loader />;
   return (
-    <CardsContainer>
-      {repos.map(repo => (
-        <Card key={repo.repoId} repo={repo} />
-      ))}
-    </CardsContainer>
+    <Router>
+      <Switch>
+        <Route exact path='/' children={<Home user={user} />} />
+        <Route exact path='/addRepo' children={<AddRepo user={user} />} />
+      </Switch>
+    </Router>
   );
 };
 
